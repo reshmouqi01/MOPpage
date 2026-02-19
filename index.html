@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
+  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MOP: A Multimodal Object-aware Policy for Robotic Manipulation</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">MOP: A <span style="color: #ff9900;">M</span>ultimodal <span style="color: #ff9900;">O</span>bject-aware <span style="color: #ff9900;">P</span>olicy for Robotic Manipulation via Geometry-guided Fusion and Trajectory Prediction</h1>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="./static/MOP.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+            </div>
+            <br>
+            <img src="./static/images/mop.png" width="100%" alt="overview">
+            <h2 class="subtitle has-text-centered">
+              MOP is a multimodal imitation learning method, enabling high accuracy and strong robustness on various simulation benchmarks and real-world tasks.
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top: 0;">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <hr style="margin-top: 0; margin-bottom: 2rem; background-color: #a0a0a0; height: 2px;">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="publication-video">
+          <video id="introduction" controls muted playsinline height="100%" width="100%" style="position: absolute; top: 0; left: 0; height: 100%; width: 100%;">
+            <source src="./static/videos/introduction.mp4" type="video/mp4">
+          </video>
+        </div>
+        <br>
+        <div class="content has-text-justified">
+          <p>
+            3D imitation learning has demonstrated capability in diverse visuomotor tasks but often struggles with small objects or high-precision manipulation due to geometric sparsity. To address this, we propose the Multimodal Object-aware Policy (MOP), a novel framework that incorporates a geometry-guided fusion module to adaptively integrate 2D semantic features with 3D geometry for precise control. Additionally, we introduce a lightweight Object Position Prediction (OPP) module that serves as an auxiliary supervision signal, eliminating the need for expensive motion capture systems during training. We evaluate our policy across 56 tasks on 3 simulation benchmarks. Experimental results demonstrate that MOP significantly outperforms baselines, achieving higher success rates with lower variance and efficient inference. Real-world experiments on 4 tasks further validate the robustness and transferability of our approach.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+
+<section class="section" style="padding-top: 0;">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3" style="margin-top: -20px;">Overview</h2>
+        <img src="./static/images/overall.png" width="100%" alt="overview">
+        <div class="content has-text-justified">
+          <p>
+            <b>Overview of the multimodal object-aware policy (MOP).</b> Based on observations captured by RGB-D camera
+            and robot state, MOP adopts the geometry-guided multimodal perception (G2MP) for dynamically fusing the semantics
+            and geometric information. In the object position prediction (OPP) module, a transformer-based conditional variational
+            autoencoder (CVAE) is introduced. Finally, conditioned on the fused feature, actions are generated by the diffusion head
+          </p>
+        </div>
+      </div>
+    </div>
+
+<div class="columns is-centered">
+  <div class="column is-full-width">
+    <h2 class="title is-3 has-text-centered" style="margin-top: 3rem; margin-bottom: 2rem;">Simulation Experiment Results</h2>
+    <div class="content has-text-justified table-caption" style="width: 90%; margin: 0 auto;">
+      <p style="margin-bottom: 2px;">
+        <b>TABLE I: Quantitative comparison of success rates (%) on 56 manipulation tasks across Adroit, DexArt, and MetaWorld benchmarks. 
+          The results are reported as mean ± standard deviation across varying difficulty levels.The best performance in each row is highlighted in bold.</b>
+      </p>
+    </div>
+    <div style="line-height: 0; margin-bottom: 2rem;">
+      <img src="./static/images/sim1.png" width="100%" style="display: block; margin: 0; padding: 0;" alt="Simulation Results 1">
+      <img src="./static/images/sim2.png" width="100%" style="display: block; margin: 0; padding: 0;" alt="Simulation Results 2">
+    </div>
+    <div class="content has-text-justified">
+      <p>
+        We evaluate our proposed MOP across 56 diverse manipulation tasks from
+         three challenging benchmarks: Adroit, DexArt, and MetaWorld. To ensure 
+         fair comparison, we conduct all experiments over 3 random seeds, with 20 
+         evaluation episodes per checkpoint to report the mean success rate and standard 
+         deviation. We compare MOP against four strong diffusion-based imitation learning baselines.
+      </p>
+      <p>
+      As shown in TABLE I, MOP achieves a competitive average success rate of 79.3%, surpassing the strong baseline (MBA) by a margin of 4.1%. Notably, within the MetaWorld benchmark, we observe that the performance advantage of MOP becomes more pronounced as the task difficulty increases. While baselines achieve comparable results on Easy tasks, MOP maintains significantly higher success rates on Hard and Very Hard subsets compared to baselines.
+      </p>
+    </div>
+    <h3 class="title is-4 has-text-centered" style="margin-top: 1.5rem; margin-bottom: 1rem;">Demo</h3>
+    <div class="has-text-centered">
+      <details id="sim-videos-container">
+          <summary class="button is-info is-rounded" id="sim-videos-summary">View videos</summary>
+          
+          <script>
+            const detailsElement = document.getElementById('sim-videos-container');
+            const summaryElement = document.getElementById('sim-videos-summary');
+
+            detailsElement.addEventListener('toggle', function() {
+              if (this.open) {
+                summaryElement.innerText = 'Hide videos';
+                // Find all video elements inside this container and play them
+                const videos = this.querySelectorAll('video');
+                videos.forEach(video => {
+                    video.currentTime = 0;
+                    video.play();
+                });
+              } else {
+                summaryElement.innerText = 'View videos';
+                // Find all video elements inside this container and pause them
+                const videos = this.querySelectorAll('video');
+                videos.forEach(video => {
+                    video.pause();
+                    video.currentTime = 0; // Optional: Reset time when hidden
+                });
+              }
+            });
+          </script>
+
+          <br/><br/>
+        <div class="columns is-multiline is-gapless is-mobile">
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="dexart_bucket">dexart_bucket</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/dexart_bucket.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="dexart_faucet">dexart_faucet</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/dexart_faucet.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="dexart_laptop">dexart_laptop</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/dexart_laptop.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="dexart_toilet">dexart_toilet</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/dexart_toilet.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="adroit_door">adroit_door</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/adroit_door.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="adroit_hammer">adroit_hammer</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/adroit_hammer.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="adroit_pen">adroit_pen</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/adroit_pen.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_assembly">Meta_assembly</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/assembly.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_basketball">Meta_basketball</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/basketball.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_bin-picking">Meta_bin-picking</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/bin-picking.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_box-close">Meta_box-close</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/box-close.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_button-press-topdown-wall">Meta_button-press-topdown-wall</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/button-press-topdown-wall.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_button-press-topdown">Meta_button-press-topdown</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/button-press-topdown.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_button-press-wall">Meta_button-press-wall</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/button-press-wall.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_button-press">Meta_button-press</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/button-press.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_coffee-button">Meta_coffee-button</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/coffee-button.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_coffee-pull">Meta_coffee-pull</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/coffee-pull.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_coffee-push">Meta_coffee-push</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/coffee-push.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_dial-turn">Meta_dial-turn</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/dial-turn.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_disassemble">Meta_disassemble</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/disassemble.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_door-close">Meta_door-close</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/door-close.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_door-lock">Meta_door-lock</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/door-lock.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_door-open">Meta_door-open</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/door-open.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_door-unlock">Meta_door-unlock</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/door-unlock.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_drawer-close">Meta_drawer-close</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/drawer-close.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_drawer-open">Meta_drawer-open</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/drawer-open.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_faucet-close">Meta_faucet-close</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/faucet-close.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_faucet-open">Meta_faucet-open</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/faucet-open.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_hammer">Meta_hammer</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/hammer.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_hand-insert">Meta_hand-insert</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/hand-insert.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_handle-press-side">Meta_handle-press-side</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/handle-press-side.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_handle-press">Meta_handle-press</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/handle-press.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_handle-pull-side">Meta_handle-pull-side</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/handle-pull-side.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_handle-pull">Meta_handle-pull</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/handle-pull.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_lever-pull">Meta_lever-pull</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/lever-pull.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_peg-insert-side">Meta_peg-insert-side</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/peg-insert-side.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_peg-unplug-side">Meta_peg-unplug-side</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/peg-unplug-side.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_pick-out-of-hole">Meta_pick-out-of-hole</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/pick-out-of-hole.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_pick-place-wall">Meta_pick-place-wall</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/pick-place-wall.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_pick-place">Meta_pick-place</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/pick-place.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_plate-slide-back-side">Meta_plate-slide-back-side</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/plate-slide-back-side.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_plate-slide-back">Meta_plate-slide-back</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/plate-slide-back.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_plate-slide-side">Meta_plate-slide-side</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/plate-slide-side.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_plate-slide">Meta_plate-slide</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/plate-slide.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_push-wall">Meta_push-wall</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/push-wall.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_push">Meta_push</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/push.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_reach-wall">Meta_reach-wall</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/reach-wall.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_reach">Meta_reach</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/reach.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_shelf-place">Meta_shelf-place</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/shelf-place.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_soccer">Meta_soccer</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/soccer.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_stick-pull">Meta_stick-pull</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/stick-pull.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_stick-push">Meta_stick-push</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/stick-push.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_sweep-into">Meta_sweep-into</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/sweep-into.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_sweep">Meta_sweep</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/sweep.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_window-close">Meta_window-close</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/window-close.mp4" type="video/mp4">
+      </video>
+  </div>
+  <div class="column" style="flex: none; width: 12.5%; padding: 4px;">
+      <p style="font-size: 0.65rem; font-weight: bold; text-align: center; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="Meta_window-open">Meta_window-open</p>
+      <video autoplay muted playsinline width="100%" style="border-radius: 4px;">
+         <source src="./static/videos/sim/window-open.mp4" type="video/mp4">
+      </video>
+  </div>
+</div>
+    </details>
+    </div>
+  </div>
+</div>
+
+    <!-- Real-world Experiment Results. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered" style="margin-top: 3rem; margin-bottom: 2rem;">Real-world Experiment Results</h2>
+        <div class="content has-text-justified table-caption" style="width: 100%; margin: 0 auto;">
+          <p style="margin-bottom: 2px;">
+            <b>TABLE II: Real-world performance comparisons between MOP and the baselines across 4 manipulation tasks.</b>
+          </p>
+        </div>
+        <img src="./static/images/real.png" width="100%" alt="Real-world Results" style="display: block; margin-bottom: 2rem;">
+        <div class="content has-text-justified">
+          <p>
+            We validate our method on a physical robot platform comprising a 6-DoF UR3 arm equipped with a Robotiq 2F-85 gripper. An Orbbec Femto Mega RGB-D camera is utilized to capture visual observations. To assess the real-world performance, we benchmark MOP against strong 3D baselines, including DP3 and Mamba Policy, across four challenging manipulation tasks detailed below:
+          </p>
+          <ul style="list-style-type: none; padding-left: 0;">
+            <li><b>&#8226; Bin-picking</b> (Small object): Pick a small cubic object and place it into a bin. In this task, point cloud downsampling often leads to the loss of small object representation.</li>
+            <li><b>&#8226; Drawer-open</b> (Articulated object): Open a drawer under random drawer positions. This task involves interactions with articulated object. Collision between the gripper and drawer needs to be reduced.</li>
+            <li><b>&#8226; Assemble</b> (High-precision task): Grasp a cylindrical object with a diameter of 40mm and move it to the working space, and insert it into a circular ring with an inner diameter of 60mm.</li>
+            <li><b>&#8226; Push-grasp</b> (multi-stage task): It consists of two stages: i) In Stage I, push a cuboid object to the edge until it overhangs; and ii) In the final stage, grasp it.</li>
+          </ul>
+          <p>
+            Table II shows that MOP significantly
+            improves the success rate across all the tasks, compared to
+            the baselines. In Bin-picking task, MOP achieves a success rate twice that of DP3; In Drawer-open task, MOP improves
+            the success rate by 20% over Mamba Policy. In Assemble
+            task, our MOP enables highly precise manipulation, hence
+            it improve the success rate by 20% over DP3. In addition,
+            leveraging MOP increases the Push-grasp accuracy by at least
+            25% over Mamba Policy.
+          </p>
+        </div>
+
+        <h3 class="title is-4 has-text-centered" style="margin-top: 1.5rem; margin-bottom: 1rem;">Demo</h3>
+
+        <!-- Row 1 -->
+        <div class="columns is-centered">
+          <!-- Top-Left: Bin-picking -->
+          <div class="column is-half has-text-centered">
+            <h3 class="title is-5">Bin-picking (2x Speed)</h3>
+            <div class="video-switcher" style="position: relative;">
+              <video class="real-video" data-index="0" autoplay muted loop playsinline width="100%" style="border-radius: 4px;">
+                <source src="./static/videos/real/bin-picking/MOP1.mp4?v=2" type="video/mp4">
+              </video>
+              <video class="real-video" data-index="1" muted loop playsinline width="100%" style="border-radius: 4px; display: none;">
+                <source src="./static/videos/real/bin-picking/MOP2.mp4?v=2" type="video/mp4">
+              </video>
+              <button class="switch-btn switch-left" onclick="switchVideo(this, -1)">&#10094;</button>
+              <button class="switch-btn switch-right" onclick="switchVideo(this, 1)">&#10095;</button>
+            </div>
+          </div>
+          <!-- Top-Right: Drawer-open -->
+          <div class="column is-half has-text-centered">
+            <h3 class="title is-5">Drawer-open (2x Speed)</h3>
+            <div class="video-switcher" style="position: relative;">
+              <video class="real-video" data-index="0" autoplay muted loop playsinline width="100%" style="border-radius: 4px;">
+                <source src="./static/videos/real/drawer-open/MOP1.mp4?v=2" type="video/mp4">
+              </video>
+              <video class="real-video" data-index="1" muted loop playsinline width="100%" style="border-radius: 4px; display: none;">
+                <source src="./static/videos/real/drawer-open/MOP2.mp4?v=2" type="video/mp4">
+              </video>
+              <button class="switch-btn switch-left" onclick="switchVideo(this, -1)">&#10094;</button>
+              <button class="switch-btn switch-right" onclick="switchVideo(this, 1)">&#10095;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="columns is-centered">
+          <!-- Bottom-Left: Assemble -->
+          <div class="column is-half has-text-centered">
+            <h3 class="title is-5">Assemble (2x Speed)</h3>
+            <div class="video-switcher" style="position: relative;">
+              <video class="real-video" data-index="0" autoplay muted loop playsinline width="100%" style="border-radius: 4px;">
+                <source src="./static/videos/real/assemble/MOP1.mp4?v=2" type="video/mp4">
+              </video>
+              <video class="real-video" data-index="1" muted loop playsinline width="100%" style="border-radius: 4px; display: none;">
+                <source src="./static/videos/real/assemble/MOP2.mp4?v=2" type="video/mp4">
+              </video>
+              <button class="switch-btn switch-left" onclick="switchVideo(this, -1)">&#10094;</button>
+              <button class="switch-btn switch-right" onclick="switchVideo(this, 1)">&#10095;</button>
+            </div>
+          </div>
+          <!-- Bottom-Right: Push-grasp -->
+          <div class="column is-half has-text-centered">
+            <h3 class="title is-5">Push-grasp (2x Speed)</h3>
+            <div class="video-switcher" style="position: relative;">
+              <video class="real-video" data-index="0" autoplay muted loop playsinline width="100%" style="border-radius: 4px;">
+                <source src="./static/videos/real/push-grasp/MOP1.mp4?v=2" type="video/mp4">
+              </video>
+              <video class="real-video" data-index="1" muted loop playsinline width="100%" style="border-radius: 4px; display: none;">
+                <source src="./static/videos/real/push-grasp/MOP2.mp4?v=2" type="video/mp4">
+              </video>
+              <button class="switch-btn switch-left" onclick="switchVideo(this, -1)">&#10094;</button>
+              <button class="switch-btn switch-right" onclick="switchVideo(this, 1)">&#10095;</button>
+            </div>
+          </div>
+        </div>
+
+        <script>
+        function updateSwitchBtns(container) {
+          var videos = container.querySelectorAll('video.real-video');
+          var currentIndex = 0;
+          videos.forEach(function(v, i) {
+            if (v.style.display !== 'none') currentIndex = i;
+          });
+          var leftBtn = container.querySelector('.switch-left');
+          var rightBtn = container.querySelector('.switch-right');
+          leftBtn.disabled = (currentIndex === 0);
+          rightBtn.disabled = (currentIndex === videos.length - 1);
+        }
+        function switchVideo(btn, direction) {
+          if (btn.disabled) return;
+          var container = btn.closest('.video-switcher');
+          var videos = container.querySelectorAll('video.real-video');
+          var currentIndex = 0;
+          videos.forEach(function(v, i) {
+            if (v.style.display !== 'none') currentIndex = i;
+          });
+          var newIndex = currentIndex + direction;
+          if (newIndex < 0 || newIndex >= videos.length) return;
+          videos[currentIndex].pause();
+          videos[currentIndex].style.display = 'none';
+          videos[newIndex].style.display = '';
+          videos[newIndex].currentTime = 0;
+          videos[newIndex].play();
+          updateSwitchBtns(container);
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+          document.querySelectorAll('.video-switcher').forEach(function(container) {
+            updateSwitchBtns(container);
+          });
+        });
+        </script>
+      </div>
+    </div>
+    <!--/ Real-world Experiment Results. -->
+
+    <!-- Conclusion -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered" style="margin-top: 3rem; margin-bottom: 2rem;">Conclusions</h2>
+        <div class="content has-text-justified">
+          <p>
+            In this work, we presented MOP, a novel <b>multimodal object-aware policy</b> designed for efficient and robust robotic manipulation. Addressing the challenge that 3D representations often suffer from information loss when handling small objects, MOP incorporates a <b>geometry-guided multimodal perception</b> module. This module leverages an adaptive gating mechanism to dynamically fuse 2D and 3D features. Furthermore, we introduced a lightweight <b>object position prediction</b> module to inject rich trajectory priors into the policy without relying on external motion capture systems. Extensive experiments across <b>56 tasks in three simulation environments</b> and <b>4 representative real-world tasks</b> demonstrate that MOP outperforms strong baselines, exhibiting exceptional capability in handling challenging manipulation tasks.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Conclusion -->
+
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            Template borrowed from <a href="https://nerfies.github.io">Nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

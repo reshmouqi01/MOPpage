@@ -627,6 +627,39 @@
           </div>
         </div>
 
+        <!-- Extra Spatial Generalization row -->
+        <div class="columns is-centered">
+          <!-- Left: Spatial Generalization -->
+          <div class="column is-half has-text-centered">
+            <h3 class="title is-5">Spatial Generalization (2x Speed)</h3>
+            <div class="video-switcher" style="position: relative;">
+              <video class="real-video" data-index="0" autoplay muted loop playsinline width="100%" style="border-radius: 4px;">
+                <source src="./static/videos/real/Spatial-Generalization/MOP3.mp4?v=2" type="video/mp4">
+              </video>
+              <video class="real-video" data-index="1" muted loop playsinline width="100%" style="border-radius: 4px; display: none;">
+                <source src="./static/videos/real/Spatial-Generalization/MOP4.mp4?v=2" type="video/mp4">
+              </video>
+              <button class="switch-btn switch-left" onclick="switchVideo(this, -1)">&#10094;</button>
+              <button class="switch-btn switch-right" onclick="switchVideo(this, 1)">&#10095;</button>
+            </div>
+          </div>
+
+          <!-- Right: Spatial Generalization -->
+          <div class="column is-half has-text-centered">
+            <h3 class="title is-5">Spatial Generalization (2x Speed)</h3>
+            <div class="video-switcher" style="position: relative;">
+              <video class="real-video" data-index="0" autoplay muted loop playsinline width="100%" style="border-radius: 4px;">
+                <source src="./static/videos/real/Spatial-Generalization/MOP1.mp4?v=2" type="video/mp4">
+              </video>
+              <video class="real-video" data-index="1" muted loop playsinline width="100%" style="border-radius: 4px; display: none;">
+                <source src="./static/videos/real/Spatial-Generalization/MOP2.mp4?v=2" type="video/mp4">
+              </video>
+              <button class="switch-btn switch-left" onclick="switchVideo(this, -1)">&#10094;</button>
+              <button class="switch-btn switch-right" onclick="switchVideo(this, 1)">&#10095;</button>
+            </div>
+          </div>
+        </div>
+
         <script>
         function updateSwitchBtns(container) {
           var videos = container.querySelectorAll('video.real-video');
